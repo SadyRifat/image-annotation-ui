@@ -1,0 +1,59 @@
+<div class="container mt-3">
+    <h2>Image List</h2>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Image</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let image of images">
+                <td>
+                    <img [src]="image.imgSrc" alt="Image" style="max-width: 100px; max-height: 100px;"
+                        class="img-thumbnail">
+                </td>
+                <td>
+                    <button class="btn btn-primary m-2" (click)="editImage(image)">Edit</button>
+                    <button class="btn btn-danger" (click)="deleteImage(image.id)">Delete</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <button class="btn btn-primary mt-3" (click)="openAddImageModal()">Add Image</button>
+</div>
+
+<ng-template #addImageModal let-modal>
+    <div class="modal-header">
+      <h5 class="modal-title">Add Image</h5>
+      <button type="button" class="close" (click)="modal.dismiss()">
+        <span>&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <input type="file" (change)="onFileSelected($event)" />
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">Close</button>
+      <button type="button" class="btn btn-primary" (click)="uploadImage()">Upload Image</button>
+    </div>
+  </ng-template>
+
+<div [class.d-none]="!selectedImage" class="container mt-3">
+    <h2>Image Details</h2>
+    <div class="row">
+      <div class="col-md-6">
+        <img id="sourceImage" [src]="selectedImage?.imgSrc" class="img-fluid" [class.d-none]="!showOriginalContent" crossorigin="anonymous" />
+        <img id="sampleImage" [src]="selectedImage?.imgSrc" class="img-fluid" style="position: absolute; max-height: 100%;" [class.d-none]="!showEditedContent" crossorigin="anonymous" />
+      </div>
+      <div class="col-md-6">
+        <div class="mt-3">
+          <button [class.d-none]="!showEditedContent" class="btn btn-primary m-2" (click)="showOriginal()">Show Original</button><br>
+          <button [class.d-none]="!showEditedContent" class="btn btn-success m-2" (click)="saveAnnotation()">Save State</button>
+          <button [class.d-none]="!showOriginalContent" class="btn btn-success ml-2" (click)="continueEdit()">Continue Edit</button>
+        </div>
+      </div>
+    </div>
+</div>
+  
+  
